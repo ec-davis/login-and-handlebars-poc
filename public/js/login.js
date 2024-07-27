@@ -27,6 +27,12 @@ const signupFormHandler = async (event) => {
     alert("To sign up, please supply email and password");
     return;
   }
+  if (password.length < 8) {
+    alert("Password must be at least 8 characters long");
+    document.querySelector("#password-signup").value = "";
+    return;
+  }
+
   const response = await fetch("/api/users/", {
     method: "POST",
     body: JSON.stringify({ email, password }),
@@ -38,6 +44,7 @@ const signupFormHandler = async (event) => {
     document.location.replace("/");
   } else {
     console.log("response", response);
+    alert(response.statusText);
   }
 };
 
