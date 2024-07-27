@@ -19,7 +19,7 @@ const sess = {
   resave: false,
   saveUninitialized: true,
 };
-
+app.use(session(sess));
 // HANDLEBARS
 const handlebarshelp = require("./utils/handlebars-helper");
 const { helpers } = require("handlebars");
