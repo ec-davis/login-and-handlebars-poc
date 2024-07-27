@@ -34,10 +34,10 @@ router.post("/", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     console.log("user-routes post: login");
-    console.log("req.body", req.body);
     req.session.save(() => {
       req.session.loggedIn = true;
       res.status(200).json("Login successful");
+      console.log("End of save block, req.session: ", req.session);
     });
   } catch (error) {
     res.status(500).json(error);
