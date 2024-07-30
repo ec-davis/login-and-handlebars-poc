@@ -96,5 +96,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+/* Post to /api/users/logout, destroys session to log user out */
+router.post("/logout",(req,res) => {
+  if (req.session.loggedIn) {
+    req.session.destroy();
+    res.status(200).end();
+  } else {
+    res.status(400).end();
+  }
+});
+
 /* EXPORTS */
 module.exports = router;
