@@ -13,14 +13,14 @@ isDevMode
 router.post("/", async (req, res) => {
   try {
     console.log("user-routes", req.method, req.url);
-    const user = await User.create({
+    const userData = await User.create({
       email: req.body.email,
       password: req.body.password,
     });
 
     req.session.save(() => {
       req.session.loggedIn = true;
-      res.status(200).json({ user: user });
+      res.status(200).json({ user: userData });
     });
   } catch (err) {
     console.log(`Error occurred while creating User: ${err}`);
@@ -32,12 +32,29 @@ router.post("/", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     console.log("user-routes post: login");
+    const deliberatelyVagueErrorMessage =
+      "Email not found or password incorrect. Please try again.";
+
+    const userData = await User.findOne({ where: { email: req.body.email } });
+    if (!userData) {
+      console.log("User not found with email address", req.body.email);
+      res.status(400).json(deliberatelyVagueErrorMessage);
+      return;
+    }
+
+    const validPassword = await userData.checkPassword(req.body.password);
+    if (!validPassword) {
+      console.log("*** Password is invalid. We've repelled an impostor! ***");
+      res.status(400).json(deliberatelyVagueErrorMessage);
+      return;
+    }
+
     req.session.save(() => {
       req.session.loggedIn = true;
       res.status(200).json("Login successful");
-      console.log("End of save block, req.session: ", req.session);
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
@@ -74,7 +91,7 @@ router.get("/", async (req, res) => {
     }
     res.status(200).json(userData);
   } catch (error) {
-    console.log("user-routes get /: Error occurred while getting Users", error);
+    console.log("Error occurred while getting Users", error);
     res.status(500).json(error);
   }
 });

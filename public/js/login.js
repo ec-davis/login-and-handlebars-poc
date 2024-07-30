@@ -7,7 +7,7 @@ const loginFormHandler = async (event) => {
     alert("Please supply email and password");
     return;
   }
-  // alert("email " + email + " password " + password);
+
   const response = await fetch("/api/users/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
@@ -15,7 +15,10 @@ const loginFormHandler = async (event) => {
   });
 
   if (response.ok) document.location.replace("/");
-  else alert("login failed");
+  else {
+    const responseData = await response.json();
+    alert(`Login error: ${responseData}`);    
+  }
 };
 
 const signupFormHandler = async (event) => {
@@ -40,7 +43,6 @@ const signupFormHandler = async (event) => {
   });
 
   if (response.ok) {
-    console.log("signup ok");
     document.location.replace("/");
   } else {
     const responseData = await response.json();
