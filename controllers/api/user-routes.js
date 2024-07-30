@@ -21,12 +21,10 @@ router.post("/", async (req, res) => {
     req.session.save(() => {
       req.session.loggedIn = true;
       res.status(200).json({ user: user });
-      console.log("End of save block, req.session: ", req.session);
     });
-  } catch (error) {
-    console.log(`Error occurred while creating User: ${error}`);
-
-    res.status(500).json(`Error occurred while creating User: ${error}`);
+  } catch (err) {
+    console.log(`Error occurred while creating User: ${err}`);
+    res.status(400).json(err);
   }
 });
 
