@@ -43,8 +43,12 @@ const signupFormHandler = async (event) => {
     console.log("signup ok");
     document.location.replace("/");
   } else {
-    console.log("response", response);
-    alert(response.statusText);
+    const responseData = await response.json();
+    if (responseData.name === "SequelizeUniqueConstraintError") {
+      alert(
+        `Is there an echo in here? That email already exists in the system.\n\nPlease log in.\n\nIf you have forgotten your password, contact the system administrator (until we implement the 'Forgot Password' feature).`
+      );
+    } else alert(`Error occurred while creating user: ${response.statusText}`);
   }
 };
 
