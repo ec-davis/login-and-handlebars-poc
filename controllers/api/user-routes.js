@@ -12,7 +12,7 @@ isDevMode
 // signup - creates new user
 router.post("/", async (req, res) => {
   try {
-    console.log("user-routes", req.method, req.url);
+    if (isDevMode) console.log("user-routes", req.method, req.url);
     const userData = await User.create({
       email: req.body.email,
       password: req.body.password,
@@ -28,10 +28,24 @@ router.post("/", async (req, res) => {
   }
 });
 
+/* Post to /api/users/logout, destroys session to log user out */
+router.post("/logout", (req, res) => {
+  if (isDevMode) console.log("user-routes", req.method, req.url);
+  if (req.session.loggedIn) {
+    req.session.destroy();
+    res.status(200).end();
+  } else {
+    res.status(400).end();
+  }
+});
+
+/* EXPORTS */
+module.exports = router;
+
 // Login!
 router.post("/login", async (req, res) => {
   try {
-    console.log("user-routes post: login");
+    if (isDevMode) console.log("user-routes post: login");
     const deliberatelyVagueErrorMessage =
       "Email not found or password incorrect. Please try again.";
 
@@ -78,7 +92,6 @@ router.delete("/", async (req, res) => {
 
 // Returns all users. Excludes the password from the response.
 router.get("/", async (req, res) => {
-  console.log("user-routes", req.method, req.url);
   if (!isDevMode)
     throw new Error("Dev-only method called when in production mode");
   try {
@@ -95,16 +108,3 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
-
-/* Post to /api/users/logout, destroys session to log user out */
-router.post("/logout",(req,res) => {
-  if (req.session.loggedIn) {
-    req.session.destroy();
-    res.status(200).end();
-  } else {
-    res.status(400).end();
-  }
-});
-
-/* EXPORTS */
-module.exports = router;

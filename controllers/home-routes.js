@@ -29,14 +29,5 @@ router.get("/login", async (req, res) => {
   }
 });
 
-// router.post("/logout", async (req, res) => {
-//   try {
-//     console.log("home-routes:", req.method, req.path);
-//     res.render("home", { loggedIn: false });
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
-
 /* EXPORTS */
 module.exports = router;
