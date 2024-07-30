@@ -7,7 +7,8 @@ const userLogOut = async () => {
     headers: { "Content-Type": "application/json" },
   });
 
-  if (!response.ok) alert("Logout failed.");
+  if (response.ok) await document.location.replace("/");
+  else alert("Logout failed.");
 };
 
 logOutLink.addEventListener("click", userLogOut);
