@@ -7,11 +7,9 @@ Example implementation of
 - a from-scratch implementation of Handlebars
 - [deployment to Render](https://login-and-handlebars-poc.onrender.com/) with a Postgres DB
 
-
-
-Repo [on GitHub](https://github.com/crestonesoftware/login-and-handlebars-poc)
-
-
+*GitHub*
+- [Repo](https://github.com/crestonesoftware/login-and-handlebars-poc)
+- [Project Kanban board](https://github.com/users/crestonesoftware/projects/12/views/1)
 
 ## <a name="Table of Contents"></a>Table of Contents
 - [Description](#Description)
